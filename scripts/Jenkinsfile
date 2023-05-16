@@ -72,5 +72,12 @@ pipeline {
                             link: env.BUILD_URL, result: currentBuild.currentResult,
                             webhookURL: env.DISCORD_WEBHOOK_URL
             }
+
+          always {
+                    cleanWs(cleanWhenNotBuilt: false,
+                            deleteDirs: true,
+                            disableDeferredWipeout: true,
+                            notFailBuild: true
+                }
      }
 }
