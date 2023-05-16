@@ -1,10 +1,10 @@
 package me.donghun.memberservice.application.service;
 
 import me.donghun.memberservice.MysqlTestContainer;
-import me.donghun.memberservice.adapter.out.persistence.command.MemberRepository;
-import me.donghun.memberservice.adapter.out.persistence.entity.MemberEntity;
-import me.donghun.memberservice.adapter.out.s3.config.S3Config;
-import me.donghun.memberservice.adapter.out.s3.config.S3Properties;
+import me.donghun.memberservice.adapter.output.persistence.command.MemberRepository;
+import me.donghun.memberservice.adapter.output.persistence.entity.MemberEntity;
+import me.donghun.memberservice.adapter.output.s3.config.S3Config;
+import me.donghun.memberservice.adapter.output.s3.config.S3Properties;
 import me.donghun.memberservice.application.dto.MemberCreateCommand;
 import me.donghun.memberservice.application.port.out.UploadAvatarPort;
 import me.donghun.memberservice.domain.model.OccupationType;

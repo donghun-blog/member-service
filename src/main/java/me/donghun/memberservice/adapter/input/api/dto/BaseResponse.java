@@ -1,4 +1,4 @@
-package me.donghun.memberservice.adapter.in.api.dto;
+package me.donghun.memberservice.adapter.input.api.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;

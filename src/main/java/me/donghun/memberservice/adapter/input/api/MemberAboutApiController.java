@@ -1,9 +1,9 @@
-package me.donghun.memberservice.adapter.in.api;
+package me.donghun.memberservice.adapter.input.api;
 
 import lombok.RequiredArgsConstructor;
-import me.donghun.memberservice.adapter.in.api.dto.BaseResponse;
-import me.donghun.memberservice.adapter.in.api.dto.RegisterMemberAbout;
-import me.donghun.memberservice.adapter.in.api.dto.MemberResponse;
+import me.donghun.memberservice.adapter.input.api.dto.BaseResponse;
+import me.donghun.memberservice.adapter.input.api.dto.RegisterMemberAbout;
+import me.donghun.memberservice.adapter.input.api.dto.MemberResponse;
 import me.donghun.memberservice.application.dto.MemberDto;
 import me.donghun.memberservice.application.port.in.MemberAboutCommandUseCase;
 import me.donghun.memberservice.application.port.in.MemberAboutQueryUseCase;

@@ -1,7 +1,7 @@
 package me.donghun.memberservice;
 
-import me.donghun.memberservice.adapter.out.s3.config.S3Config;
-import me.donghun.memberservice.adapter.out.s3.config.S3Properties;
+import me.donghun.memberservice.adapter.output.s3.config.S3Config;
+import me.donghun.memberservice.adapter.output.s3.config.S3Properties;
 import me.donghun.memberservice.filters.IntegrationTest;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.boot.test.context.SpringBootTest;

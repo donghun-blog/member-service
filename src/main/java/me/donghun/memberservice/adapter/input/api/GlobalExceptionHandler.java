@@ -1,4 +1,4 @@
-package me.donghun.memberservice.adapter.in.api;
+package me.donghun.memberservice.adapter.input.api;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
