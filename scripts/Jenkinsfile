@@ -32,7 +32,7 @@ pipeline {
           steps {
                 sh "chmod +x gradlew"
                 sh """
-                   ./gradlew clean build bootJar -x test
+                   ./gradlew clean test integrationTest build bootJar
                    """
             }
         }
