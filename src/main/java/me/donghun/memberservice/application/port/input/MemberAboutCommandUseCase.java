@@ -1,4 +1,4 @@
-package me.donghun.memberservice.application.port.in;
+package me.donghun.memberservice.application.port.input;
 
 import me.donghun.memberservice.application.dto.MemberCreateCommand;
 import me.donghun.memberservice.application.dto.MemberUpdateCommand;

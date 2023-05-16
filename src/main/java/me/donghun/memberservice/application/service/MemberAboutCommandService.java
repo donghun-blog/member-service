@@ -3,7 +3,7 @@ package me.donghun.memberservice.application.service;
 import lombok.RequiredArgsConstructor;
 import me.donghun.memberservice.application.dto.MemberCreateCommand;
 import me.donghun.memberservice.application.dto.MemberUpdateCommand;
-import me.donghun.memberservice.application.port.in.MemberAboutCommandUseCase;
+import me.donghun.memberservice.application.port.input.MemberAboutCommandUseCase;
 import me.donghun.memberservice.application.port.out.LoadMemberPort;
 import me.donghun.memberservice.application.port.out.SaveMemberPort;
 import me.donghun.memberservice.application.port.out.UploadAvatarPort;

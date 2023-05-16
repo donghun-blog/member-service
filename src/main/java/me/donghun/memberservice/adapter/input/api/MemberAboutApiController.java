@@ -5,8 +5,8 @@ import me.donghun.memberservice.adapter.input.api.dto.BaseResponse;
 import me.donghun.memberservice.adapter.input.api.dto.RegisterMemberAbout;
 import me.donghun.memberservice.adapter.input.api.dto.MemberResponse;
 import me.donghun.memberservice.application.dto.MemberDto;
-import me.donghun.memberservice.application.port.in.MemberAboutCommandUseCase;
-import me.donghun.memberservice.application.port.in.MemberAboutQueryUseCase;
+import me.donghun.memberservice.application.port.input.MemberAboutCommandUseCase;
+import me.donghun.memberservice.application.port.input.MemberAboutQueryUseCase;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 

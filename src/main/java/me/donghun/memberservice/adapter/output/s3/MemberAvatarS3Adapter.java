@@ -6,7 +6,7 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
 import me.donghun.memberservice.adapter.output.s3.config.S3Properties;
-import me.donghun.memberservice.application.port.in.AvatarNamingRuleGenerateUseCase;
+import me.donghun.memberservice.application.port.input.AvatarNamingRuleGenerateUseCase;
 import me.donghun.memberservice.application.port.out.UploadAvatarPort;
 import me.donghun.memberservice.domain.exception.MemberException;
 import org.apache.commons.io.FilenameUtils;
