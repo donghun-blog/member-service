@@ -28,14 +28,12 @@ public class MemberEntity extends BaseTimeEntity {
     private String company;
     @Embedded
     private EmailAddressValue emailAddress;
-    private LocalDateTime createdAt;
-    private LocalDateTime modifiedAt;
 
     @Lob
     private String introduce;
 
     @Builder
-    private MemberEntity(Long id, MemberType type, String name, String avatar, OccupationType occupationType, String company, EmailAddressValue emailAddress, LocalDateTime createdAt, LocalDateTime modifiedAt, String introduce) {
+    private MemberEntity(Long id, MemberType type, String name, String avatar, OccupationType occupationType, String company, EmailAddressValue emailAddress, String introduce) {
         this.id = id;
         this.type = type;
         this.name = name;
@@ -43,8 +41,6 @@ public class MemberEntity extends BaseTimeEntity {
         this.occupationType = occupationType;
         this.company = company;
         this.emailAddress = emailAddress;
-        this.createdAt = createdAt;
-        this.modifiedAt = modifiedAt;
         this.introduce = introduce;
     }
 }

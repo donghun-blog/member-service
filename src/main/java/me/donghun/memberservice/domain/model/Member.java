@@ -6,7 +6,6 @@ import me.donghun.memberservice.domain.dto.MemberUpdateDomainDto;
 import me.donghun.memberservice.domain.exception.MemberException;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 import static me.donghun.memberservice.domain.exception.MemberErrorCode.MEMBER_NAME_EMPTY;
 import static org.springframework.util.StringUtils.hasText;
