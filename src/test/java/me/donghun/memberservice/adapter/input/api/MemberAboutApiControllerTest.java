@@ -151,13 +151,10 @@ class MemberAboutApiControllerTest extends AbstractDefaultPresentationTest {
     @DisplayName("회원소개 생성 시 이메일 형식이 다른 경우 예외응답을 반환한다.")
     @ValueSource(strings = {"test@@", "123.naver"})
     @ParameterizedTest
-    void registerMemberAboutEmailNotValid(String emptyEmail) throws Exception {
+    void registerMemberAboutEmailNotValid(String email) throws Exception {
         // given
         RegisterMemberAbout.Request request = RegisterMemberAboutRequestFixture.complete()
-                                                                               .email(emptyEmail)
-                                                                               .twitter(emptyEmail)
-                                                                               .linkedin(emptyEmail)
-                                                                               .github(emptyEmail)
+                                                                               .email(email)
                                                                                .build();
         MockMultipartFile mockMultipartFile = MockMultipartFileFixture.complete();
         MockMultipartFile mockAbout = getMockAbout(request);
@@ -172,9 +169,6 @@ class MemberAboutApiControllerTest extends AbstractDefaultPresentationTest {
                .andExpect(jsonPath("$.result.status").value(FAIL.getDescription()))
                .andExpect(jsonPath("$.result.message").value(FIELD_ERROR_MESSAGE))
                .andExpect(jsonPath("$.body.email[0]").value("이메일 형식이 아닙니다."))
-               .andExpect(jsonPath("$.body.twitter[0]").value("이메일 형식이 아닙니다."))
-               .andExpect(jsonPath("$.body.linkedin[0]").value("이메일 형식이 아닙니다."))
-               .andExpect(jsonPath("$.body.github[0]").value("이메일 형식이 아닙니다."))
         ;
     }
 
@@ -208,6 +202,7 @@ class MemberAboutApiControllerTest extends AbstractDefaultPresentationTest {
         // given
         final Long memberId = 1L;
         RegisterMemberAbout.Request request = RegisterMemberAboutRequestFixture.complete()
+                .github("https://github.com/donghun93")
                                                                                .build();
         MockMultipartFile mockMultipartFile = MockMultipartFileFixture.complete();
         MockMultipartFile mockAbout = getMockAbout(request);

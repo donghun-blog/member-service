@@ -11,9 +11,9 @@ public class RegisterMemberAboutRequestFixture {
                 .occupation(OccupationType.BACKEND_ENGINEER.name())
                 .company("company")
                 .email("email@test.com")
-                .twitter("twitter@test.com")
-                .linkedin("linkedin@test.com")
-                .github("github@test.com")
+                .twitter("https://twitter.com/?lang=ko")
+                .linkedin("https://kr.linkedin.com/")
+                .github("https://github.com/")
                 .introduce("introduce")
                 ;
 
