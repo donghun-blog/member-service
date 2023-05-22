@@ -12,6 +12,7 @@ import me.donghun.memberservice.domain.exception.MemberException;
 import me.donghun.memberservice.domain.model.Member;
 import me.donghun.memberservice.domain.model.ProfileExtensionType;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.Objects;
 
@@ -33,7 +34,8 @@ public class MemberAboutCommandService implements MemberAboutCommandUseCase {
 
         // 프로필 이미지 업로드 (상대 경로 반환)
         if(!command.avatar().isEmpty()) {
-            if(ProfileExtensionType.isSupport(command.avatar().getName())) {
+            String fileName = command.avatar().getOriginalFilename();
+            if(StringUtils.hasText(fileName) && ProfileExtensionType.isSupport(fileName)) {
                 avatarPath = uploadAvatarPort.upload(command.avatar());
             } else {
                 throw new MemberException(MEMBER_AVATAR_EXTENSION_NOT_SUPPORT);
