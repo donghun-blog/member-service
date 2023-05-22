@@ -1,8 +1,9 @@
 package me.donghun.memberservice.domain.model;
 
-import me.donghun.memberservice.filters.DefaultTest;
-import me.donghun.memberservice.filters.EmptyParameters;
+import me.donghun.memberservice.common.environment.AbstractDefaultTest;
+import me.donghun.memberservice.common.EmptyParameters;
 import me.donghun.memberservice.domain.exception.MemberException;
+import me.donghun.memberservice.fixture.EmailAddressFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -10,7 +11,7 @@ import static me.donghun.memberservice.domain.exception.MemberErrorCode.MEMBER_E
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-class EmailAddressTest extends DefaultTest {
+class EmailAddressTest extends AbstractDefaultTest {
 
     @DisplayName("이메일 주소 목록 생성 시 회원 이메일이 없을 경우 예외를 발생시킨다.")
     @EmptyParameters
@@ -23,6 +24,23 @@ class EmailAddressTest extends DefaultTest {
                                                     .build())
                 .isInstanceOf(MemberException.class)
                 .hasFieldOrPropertyWithValue("errorCode", MEMBER_EMAIL_EMPTY);
+    }
+
+    @DisplayName("이메일 목록 생성 시 이메일을 제외한 나머지 이메일 계정에 빈문자가 들어간 경우 null을 반환한다.")
+    @EmptyParameters
+    void createEmailAddressEmptyNullReturn(String email) {
+        // given
+
+        // when
+        EmailAddress emailAddress = EmailAddressFixture.complete()
+                                                .twitter(email)
+                                                .github(email)
+                                                .linkedin(email)
+                                                .build();
+        // then
+        assertThat(emailAddress)
+                .extracting("twitter", "github", "linkedin")
+                .contains(null, null, null);
     }
     
     @DisplayName("이메일 검증 시 회원 이메일이 맞지 않을 경우 false를 반환한다.")
@@ -92,16 +110,5 @@ class EmailAddressTest extends DefaultTest {
 
         // then
         assertThat(result).isTrue();
-    }
-
-    public static class EmailAddressFixture {
-        public static EmailAddress.EmailAddressBuilder complete() {
-            return EmailAddress.builder()
-                               .email("test@gmail.com")
-                               .github("test@github.com")
-                               .twitter("test@twitter.com")
-                               .linkedin("test@linkedin.com")
-                    ;
-        }
     }
 }

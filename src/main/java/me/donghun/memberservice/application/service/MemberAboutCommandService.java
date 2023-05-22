@@ -4,25 +4,42 @@ import lombok.RequiredArgsConstructor;
 import me.donghun.memberservice.application.dto.MemberCreateCommand;
 import me.donghun.memberservice.application.dto.MemberUpdateCommand;
 import me.donghun.memberservice.application.port.input.MemberAboutCommandUseCase;
-import me.donghun.memberservice.application.port.out.LoadMemberPort;
-import me.donghun.memberservice.application.port.out.SaveMemberPort;
-import me.donghun.memberservice.application.port.out.UploadAvatarPort;
+import me.donghun.memberservice.application.port.output.LoadMemberPort;
+import me.donghun.memberservice.application.port.output.SaveMemberPort;
+import me.donghun.memberservice.application.port.output.UpdateMemberPort;
+import me.donghun.memberservice.application.port.output.UploadAvatarPort;
+import me.donghun.memberservice.domain.exception.MemberException;
 import me.donghun.memberservice.domain.model.Member;
+import me.donghun.memberservice.domain.model.ProfileExtensionType;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
+
+import static me.donghun.memberservice.domain.exception.MemberErrorCode.MEMBER_AVATAR_EXTENSION_NOT_SUPPORT;
 
 @Service
 @RequiredArgsConstructor
 public class MemberAboutCommandService implements MemberAboutCommandUseCase {
 
     private final SaveMemberPort saveMemberPort;
+    private final UpdateMemberPort updateMemberPort;
     private final UploadAvatarPort uploadAvatarPort;
     private final LoadMemberPort loadMemberPort;
+    private final RemoveAvatarImageService removeAvatarImageService;
 
     @Override
     public Long createAbout(MemberCreateCommand command) {
+        String avatarPath = null;
 
         // 프로필 이미지 업로드 (상대 경로 반환)
-        String avatarPath = uploadAvatarPort.upload(command.avatar());
+        if(!command.avatar().isEmpty()) {
+            if(ProfileExtensionType.isSupport(command.avatar().getName())) {
+                avatarPath = uploadAvatarPort.upload(command.avatar());
+            } else {
+                throw new MemberException(MEMBER_AVATAR_EXTENSION_NOT_SUPPORT);
+            }
+        }
+
         Member member = command.toEntity(avatarPath);
 
         return saveMemberPort.save(member);
@@ -34,11 +51,12 @@ public class MemberAboutCommandService implements MemberAboutCommandUseCase {
 
         String avatarPath = "";
 
-        if (!member.getAvatar().equals(command.avatar().getName())) {
+        if (!command.avatar().isEmpty()) {
             avatarPath = uploadAvatarPort.upload(command.avatar());
+            removeAvatarImageService.removeAsync(member.getAvatar().getPath());
         }
 
         member.update(command.toDomainDto(avatarPath));
-        saveMemberPort.save(member);
+        updateMemberPort.update(member);
     }
 }

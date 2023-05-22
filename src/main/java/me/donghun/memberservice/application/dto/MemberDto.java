@@ -7,6 +7,8 @@ import me.donghun.memberservice.domain.model.Member;
 import me.donghun.memberservice.domain.model.MemberType;
 import me.donghun.memberservice.domain.model.OccupationType;
 
+import static java.util.Objects.isNull;
+
 @Getter
 public class MemberDto {
 
@@ -39,7 +41,11 @@ public class MemberDto {
                         .id(member.getId())
                         .type(member.getType())
                         .name(member.getName())
-                        .avatar(avatarAbsolutePath + member.getAvatar())
+                        .avatar(
+                                !isNull(member.getAvatar()) ?
+                                        avatarAbsolutePath + member.getAvatar().getPath() :
+                                        null
+                        )
                         .occupationType(member.getOccupationType())
                         .company(member.getCompany())
                         .emailAddress(member.getEmailAddress())

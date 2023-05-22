@@ -1,4 +1,4 @@
-package me.donghun.memberservice.application.port.out;
+package me.donghun.memberservice.application.port.output;
 
 import org.springframework.web.multipart.MultipartFile;
 

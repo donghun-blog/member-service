@@ -1,14 +1,12 @@
 package me.donghun.memberservice.application.service;
 
-import me.donghun.memberservice.filters.DefaultTest;
-import org.assertj.core.api.Assertions;
+import me.donghun.memberservice.common.environment.AbstractDefaultTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
-class AvatarNamingRuleDefaultGenerateServiceTest extends DefaultTest {
+class AvatarNamingRuleTest extends AbstractDefaultTest {
 
     @DisplayName("아바타 경로 기본 네이밍을 생성 후 확장자를 확인한다.")
     @Test

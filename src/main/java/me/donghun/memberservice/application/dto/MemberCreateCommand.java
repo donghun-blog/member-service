@@ -4,6 +4,7 @@ import me.donghun.memberservice.domain.model.EmailAddress;
 import me.donghun.memberservice.domain.model.Member;
 import me.donghun.memberservice.domain.model.MemberType;
 import me.donghun.memberservice.domain.model.OccupationType;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 public record MemberCreateCommand(
@@ -20,7 +21,7 @@ public record MemberCreateCommand(
     public Member toEntity(String avatarPath) {
         return Member.createMember(
                 name,
-                avatarPath,
+                StringUtils.hasText(avatarPath) ? avatarPath : null,
                 MemberType.AUTHORS,
                 OccupationType.valueOf(occupationType),
                 company,

@@ -1,7 +1,8 @@
 package me.donghun.memberservice.adapter.output.persistence.query;
 
-import me.donghun.memberservice.DataAccessMysqlTestContainer;
-import me.donghun.memberservice.adapter.output.persistence.command.MemberRepository;
+import me.donghun.memberservice.adapter.output.persistence.repository.MemberQueryRepository;
+import me.donghun.memberservice.common.environment.AbstractDataAccessMysqlTestContainer;
+import me.donghun.memberservice.adapter.output.persistence.repository.MemberRepository;
 import me.donghun.memberservice.adapter.output.persistence.entity.EmailAddressValue;
 import me.donghun.memberservice.adapter.output.persistence.entity.MemberEntity;
 import me.donghun.memberservice.domain.model.MemberType;
@@ -15,7 +16,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-class MemberQueryRepositoryImplTest extends DataAccessMysqlTestContainer {
+class MemberQueryRepositoryImplTest extends AbstractDataAccessMysqlTestContainer {
 
     @Autowired
     private MemberQueryRepository memberQueryRepository;

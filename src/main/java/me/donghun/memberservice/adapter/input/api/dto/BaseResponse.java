@@ -17,6 +17,20 @@ public class BaseResponse<T> {
     public static <T> BaseResponse<T> success(T body) {
         return success(null, body);
     }
+    public static <T> BaseResponse<T> success() {
+        return success(null, null);
+    }
+
+    public static <T> BaseResponse<T> error(String message, T body) {
+        return new BaseResponse<>(Result.fail(message), body);
+    }
+    public static <T> BaseResponse<T> error(String message) {
+        return error(message, null);
+    }
+    public static <T> BaseResponse<T> error(T body) {
+        return error(null, body);
+    }
+
 
     @Getter
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -39,6 +53,7 @@ public class BaseResponse<T> {
                          .build();
         }
 
+        @Getter
         @RequiredArgsConstructor
         public enum ResultStatus {
             SUCCESS("success"),

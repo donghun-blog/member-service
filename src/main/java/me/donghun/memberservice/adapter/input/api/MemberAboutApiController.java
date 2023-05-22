@@ -1,12 +1,15 @@
 package me.donghun.memberservice.adapter.input.api;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import me.donghun.memberservice.adapter.input.api.dto.BaseResponse;
 import me.donghun.memberservice.adapter.input.api.dto.RegisterMemberAbout;
 import me.donghun.memberservice.adapter.input.api.dto.MemberResponse;
+import me.donghun.memberservice.adapter.input.api.dto.UpdateMemberAbout;
 import me.donghun.memberservice.application.dto.MemberDto;
 import me.donghun.memberservice.application.port.input.MemberAboutCommandUseCase;
 import me.donghun.memberservice.application.port.input.MemberAboutQueryUseCase;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,11 +27,20 @@ public class MemberAboutApiController {
         return MemberResponse.success(memberDto);
     }
 
-    @PostMapping
+    @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public BaseResponse<RegisterMemberAbout.Response> registerMemberAbout(
-            @RequestPart(value = "about") RegisterMemberAbout.Request request,
+            @Valid @RequestPart(value = "about") RegisterMemberAbout.Request request,
             @RequestPart(value = "avatar", required = false) MultipartFile avatar) {
         Long memberId = memberAboutCommandUseCase.createAbout(request.toCommand(avatar));
         return RegisterMemberAbout.Response.success(memberId);
+    }
+
+    @PutMapping(value = "/{memberId}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public BaseResponse<UpdateMemberAbout.Response> updateMemberAbout(
+            @PathVariable Long  memberId,
+            @Valid @RequestPart(value = "about") UpdateMemberAbout.Request request,
+            @RequestPart(value = "avatar", required = false) MultipartFile avatar) {
+        memberAboutCommandUseCase.updateAbout(memberId, request.toCommand(avatar));
+        return UpdateMemberAbout.Response.success();
     }
 }

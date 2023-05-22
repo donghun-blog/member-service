@@ -1,10 +1,12 @@
 package me.donghun.memberservice.application.dto;
 
+import lombok.Builder;
 import me.donghun.memberservice.domain.dto.MemberUpdateDomainDto;
 import me.donghun.memberservice.domain.model.OccupationType;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+@Builder
 public record MemberUpdateCommand(String name,
                                   MultipartFile avatar,
                                   String occupationType,

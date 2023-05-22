@@ -1,4 +1,4 @@
-package me.donghun.memberservice.adapter.output.persistence.query;
+package me.donghun.memberservice.adapter.output.persistence.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;

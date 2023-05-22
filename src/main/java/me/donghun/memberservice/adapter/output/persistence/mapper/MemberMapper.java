@@ -23,6 +23,8 @@ public class MemberMapper {
                      .occupationType(memberEntity.getOccupationType())
                      .company(memberEntity.getCompany())
                      .emailAddress(emailAddressMapper.toDomainModel(memberEntity.getEmailAddress()))
+                     .createdAt(memberEntity.getCreatedAt())
+                     .modifiedAt(memberEntity.getModifiedAt())
                      .introduce(memberEntity.getIntroduce())
                      .build();
     }
@@ -32,7 +34,9 @@ public class MemberMapper {
                            .id((isNull(member.getId()) ? null : member.getId()))
                            .type(member.getType())
                            .name(member.getName())
-                           .avatar(member.getAvatar())
+                           .avatar(
+                                  isNull(member.getAvatar()) ? null : member.getAvatar().getPath()
+                           )
                            .occupationType(member.getOccupationType())
                            .company(member.getCompany())
                            .emailAddress(emailAddressMapper.toValueObject(member.getEmailAddress()))

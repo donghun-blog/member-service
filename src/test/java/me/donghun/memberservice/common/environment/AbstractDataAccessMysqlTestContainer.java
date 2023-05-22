@@ -1,7 +1,6 @@
-package me.donghun.memberservice;
+package me.donghun.memberservice.common.environment;
 
 import me.donghun.memberservice.config.QueryDslTestConfig;
-import me.donghun.memberservice.filters.IntegrationTest;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
@@ -17,7 +16,7 @@ import org.testcontainers.junit.jupiter.Container;
 @ActiveProfiles("test-container")
 @DataJpaTest(includeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION, classes = Repository.class))
 @Import(QueryDslTestConfig.class)
-public class DataAccessMysqlTestContainer extends IntegrationTest {
+public abstract class AbstractDataAccessMysqlTestContainer extends AbstractIntegrationTest {
     @Container
     protected static final MySQLContainer mySQLContainer = new MySQLContainer<>("mysql:8.0.30")
             .withUsername("test")

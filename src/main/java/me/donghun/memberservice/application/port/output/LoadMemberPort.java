@@ -1,4 +1,4 @@
-package me.donghun.memberservice.application.port.out;
+package me.donghun.memberservice.application.port.output;
 
 import me.donghun.memberservice.domain.model.Member;
 

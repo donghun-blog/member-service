@@ -4,9 +4,13 @@ import lombok.Builder;
 import lombok.Getter;
 import me.donghun.memberservice.domain.dto.MemberUpdateDomainDto;
 import me.donghun.memberservice.domain.exception.MemberException;
+import me.donghun.memberservice.domain.utils.CheckEmptyValueUtils;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
+import static java.util.Objects.isNull;
+import static me.donghun.memberservice.domain.exception.MemberErrorCode.MEMBER_INTRODUCE_EMPTY;
 import static me.donghun.memberservice.domain.exception.MemberErrorCode.MEMBER_NAME_EMPTY;
 import static org.springframework.util.StringUtils.hasText;
 
@@ -15,7 +19,7 @@ public class Member {
     private Long id;
     private MemberType type;
     private String name;
-    private String avatar;
+    private Profile avatar;
     // 직업
     private OccupationType occupationType;
     // 회사
@@ -24,24 +28,6 @@ public class Member {
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
     private String introduce;
-
-    @Builder
-    private Member(Long id, MemberType type, String name, String avatar, OccupationType occupationType, String company,
-                   EmailAddress emailAddress, LocalDateTime createdAt, LocalDateTime modifiedAt,
-                   String introduce) {
-        this.id = id;
-        this.type = type;
-        this.name = name;
-        this.avatar = avatar;
-        this.occupationType = occupationType;
-        this.company = company;
-        this.emailAddress = emailAddress;
-        this.createdAt = createdAt;
-        this.modifiedAt = modifiedAt;
-        this.introduce = introduce;
-
-        validate();
-    }
 
     public static Member createMember(String name,
                                       String avatar,
@@ -63,6 +49,27 @@ public class Member {
                      .build();
     }
 
+    @Builder
+    private Member(Long id, MemberType type, String name, String avatar, OccupationType occupationType, String company,
+                   EmailAddress emailAddress, LocalDateTime createdAt, LocalDateTime modifiedAt,
+                   String introduce) {
+        this.id = id;
+        this.type = type;
+        this.name = name;
+        this.occupationType = occupationType;
+        this.emailAddress = emailAddress;
+        this.createdAt = createdAt;
+        this.modifiedAt = modifiedAt;
+        this.company = CheckEmptyValueUtils.checkEmptyValue(company);
+        this.introduce = CheckEmptyValueUtils.checkEmptyValue(introduce);
+
+        if(hasText(avatar)) {
+            this.avatar = Profile.createProfile(avatar);
+        }
+
+        validate();
+    }
+
     public void update(MemberUpdateDomainDto updateDomainDto) {
         updateName(updateDomainDto.getName());
         updateAvatar(updateDomainDto.getAvatar());
@@ -70,6 +77,13 @@ public class Member {
         updateCompany(updateDomainDto.getCompany());
         updateEmailAddress(updateDomainDto.getEmailAddress());
         updateIntroduce(updateDomainDto.getIntroduce());
+
+        validate();
+    }
+
+    private void validate() {
+        if (!hasText(name)) throw new MemberException(MEMBER_NAME_EMPTY);
+        if (!hasText(introduce)) throw new MemberException(MEMBER_INTRODUCE_EMPTY);
     }
 
     private void updateName(String name) {
@@ -78,9 +92,9 @@ public class Member {
         }
     }
 
-    private void updateAvatar(String avatar) {
-        if(!this.avatar.equals(avatar)) {
-            this.avatar = avatar;
+    private void updateAvatar(String path) {
+        if(hasText(path)) {
+            this.avatar = Profile.createProfile(path);
         }
     }
 
@@ -106,9 +120,5 @@ public class Member {
         if(!this.introduce.equals(introduce)) {
             this.introduce = introduce;
         }
-    }
-
-    private void validate() {
-        if (!hasText(name)) throw new MemberException(MEMBER_NAME_EMPTY);
     }
 }

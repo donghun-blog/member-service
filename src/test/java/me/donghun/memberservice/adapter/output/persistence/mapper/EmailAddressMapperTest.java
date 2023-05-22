@@ -2,16 +2,14 @@ package me.donghun.memberservice.adapter.output.persistence.mapper;
 
 import me.donghun.memberservice.adapter.output.persistence.entity.EmailAddressValue;
 import me.donghun.memberservice.domain.model.EmailAddress;
-import me.donghun.memberservice.filters.DefaultTest;
+import me.donghun.memberservice.common.environment.AbstractDefaultTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.NullSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-class EmailAddressMapperTest extends DefaultTest {
+class EmailAddressMapperTest extends AbstractDefaultTest {
 
     @DisplayName("이메일 Value Object를 Domain Model로 변경 후 값을 확인한다.")
     @Test

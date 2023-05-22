@@ -13,6 +13,7 @@ public class MemberResponse {
     private final String name;
     private final String avatar;
     private final String occupation;
+    private final String occupationName;
     private final String company;
     private final String email;
     private final String twitter;
@@ -21,13 +22,14 @@ public class MemberResponse {
     private final String introduce;
 
     @Builder(access = AccessLevel.PROTECTED)
-    private MemberResponse(Long memberId, String type, String name, String avatar, String occupation, String company, String email, String twitter, String linkedin, String github,
+    private MemberResponse(Long memberId, String type, String name, String avatar, String occupation, String occupationName, String company, String email, String twitter, String linkedin, String github,
                            String introduce) {
         this.memberId = memberId;
         this.type = type;
         this.name = name;
         this.avatar = avatar;
         this.occupation = occupation;
+        this.occupationName = occupationName;
         this.company = company;
         this.email = email;
         this.twitter = twitter;
@@ -48,7 +50,9 @@ public class MemberResponse {
                              .name(memberDto.getName())
                              .avatar(memberDto.getAvatar())
                              .occupation(memberDto.getOccupationType()
-                                     .getDescription())
+                                                  .getDescription())
+                             .occupationName(memberDto.getOccupationType()
+                                                      .getName())
                              .company(memberDto.getCompany())
                              .email(memberDto.getEmailAddress()
                                              .getEmail())

@@ -1,4 +1,4 @@
-package me.donghun.memberservice.fixture.service;
+package me.donghun.memberservice.fixture;
 
 import me.donghun.memberservice.application.dto.MemberCreateCommand;
 import me.donghun.memberservice.domain.model.OccupationType;
@@ -18,7 +18,7 @@ public class MemberCreateCommandFixture {
     }
 
     private static MockMultipartFile completeMockMultipartFile() {
-        return new MockMultipartFile("image",
+        return new MockMultipartFile("image.png",
                 "test.png",
                 "image/png",
                 "test".getBytes());
