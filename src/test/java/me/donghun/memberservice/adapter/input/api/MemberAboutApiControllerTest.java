@@ -8,8 +8,6 @@ import me.donghun.memberservice.application.port.input.MemberAboutCommandUseCase
 import me.donghun.memberservice.application.port.input.MemberAboutQueryUseCase;
 import me.donghun.memberservice.common.EmptyParameters;
 import me.donghun.memberservice.common.environment.AbstractDefaultPresentationTest;
-import me.donghun.memberservice.domain.model.EmailAddress;
-import me.donghun.memberservice.domain.model.MemberType;
 import me.donghun.memberservice.domain.model.OccupationType;
 import me.donghun.memberservice.fixture.MemberDtoFixture;
 import me.donghun.memberservice.fixture.MockMultipartFileFixture;
@@ -33,7 +31,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -70,6 +67,34 @@ class MemberAboutApiControllerTest extends AbstractDefaultPresentationTest {
                .andExpect(jsonPath("$.result.status").value(FAIL.getDescription()))
                .andExpect(jsonPath("$.result.message").value(FIELD_ERROR_MESSAGE))
                .andExpect(jsonPath("$.body.name[0]").value("이름은 필수입니다."))
+        ;
+    }
+
+    @DisplayName("회원소개 생성 시 깃허브, 링크드인, 트위터 대해서 null이 넘어온 경우")
+    @EmptyParameters
+    void registerMemberAboutSiteEmpty(String empty) throws Exception {
+        // given
+        final Long memberId = 1L;
+        RegisterMemberAbout.Request request = RegisterMemberAboutRequestFixture.complete()
+                                                                               .github(empty)
+                                                                               .linkedin(empty)
+                                                                               .twitter(empty)
+                                                                               .build();
+        MockMultipartFile mockMultipartFile = MockMultipartFileFixture.complete();
+        MockMultipartFile mockAbout = getMockAbout(request);
+
+        given(memberAboutCommandUseCase.createAbout(any()))
+                .willReturn(memberId);
+
+        // when & then
+        mockMvc.perform(
+                       multipart(BASE_URL)
+                               .file(mockMultipartFile)
+                               .file(mockAbout))
+               .andDo(print())
+               .andExpect(status().isOk())
+               .andExpect(jsonPath("$.result.status").value(SUCCESS.getDescription()))
+               .andExpect(jsonPath("$.body.memberId").value(memberId))
         ;
     }
 
@@ -202,7 +227,7 @@ class MemberAboutApiControllerTest extends AbstractDefaultPresentationTest {
         // given
         final Long memberId = 1L;
         RegisterMemberAbout.Request request = RegisterMemberAboutRequestFixture.complete()
-                .github("https://github.com/donghun93")
+                                                                               .github("https://github.com/donghun93")
                                                                                .build();
         MockMultipartFile mockMultipartFile = MockMultipartFileFixture.complete();
         MockMultipartFile mockAbout = getMockAbout(request);
@@ -237,15 +262,21 @@ class MemberAboutApiControllerTest extends AbstractDefaultPresentationTest {
                .andExpect(status().isOk())
                .andExpect(jsonPath("$.result.status").value(SUCCESS.getDescription()))
                .andExpect(jsonPath("$.body.memberId").value(memberDto.getId()))
-               .andExpect(jsonPath("$.body.type").value(memberDto.getType().name()))
+               .andExpect(jsonPath("$.body.type").value(memberDto.getType()
+                                                                 .name()))
                .andExpect(jsonPath("$.body.name").value(memberDto.getName()))
                .andExpect(jsonPath("$.body.avatar").value(memberDto.getAvatar()))
-               .andExpect(jsonPath("$.body.occupation").value(memberDto.getOccupationType().getDescription()))
+               .andExpect(jsonPath("$.body.occupation").value(memberDto.getOccupationType()
+                                                                       .getDescription()))
                .andExpect(jsonPath("$.body.company").value(memberDto.getCompany()))
-               .andExpect(jsonPath("$.body.email").value(memberDto.getEmailAddress().getEmail()))
-               .andExpect(jsonPath("$.body.twitter").value(memberDto.getEmailAddress().getTwitter()))
-               .andExpect(jsonPath("$.body.linkedin").value(memberDto.getEmailAddress().getLinkedin()))
-               .andExpect(jsonPath("$.body.github").value(memberDto.getEmailAddress().getGithub()))
+               .andExpect(jsonPath("$.body.email").value(memberDto.getEmailAddress()
+                                                                  .getEmail()))
+               .andExpect(jsonPath("$.body.twitter").value(memberDto.getEmailAddress()
+                                                                    .getTwitter()))
+               .andExpect(jsonPath("$.body.linkedin").value(memberDto.getEmailAddress()
+                                                                     .getLinkedin()))
+               .andExpect(jsonPath("$.body.github").value(memberDto.getEmailAddress()
+                                                                   .getGithub()))
                .andExpect(jsonPath("$.body.introduce").value(memberDto.getIntroduce()))
 
         ;

@@ -5,6 +5,7 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import jakarta.validation.Payload;
 import me.donghun.memberservice.domain.model.CodeEnum;
+import org.springframework.util.StringUtils;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -33,6 +34,11 @@ public @interface ValidUrl {
 
         @Override
         public boolean isValid(String value, ConstraintValidatorContext context) {
+
+            if(!StringUtils.hasText(value)) {
+                return true;
+            }
+
             Pattern pattern = Pattern.compile("^((http|https)://)?(www\\.)?([a-zA-Z0-9]+\\.)?[a-zA-Z0-9-]+\\.[a-zA-Z]{2,}(\\/.*)?$");
             Matcher matcher = pattern.matcher(value);
             return matcher.matches();
