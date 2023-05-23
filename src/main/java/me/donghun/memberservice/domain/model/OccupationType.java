@@ -1,5 +1,6 @@
 package me.donghun.memberservice.domain.model;
 
+
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

@@ -9,7 +9,6 @@ import me.donghun.memberservice.application.dto.MemberDto;
 public class MemberResponse {
 
     private final Long memberId;
-    private final String type;
     private final String name;
     private final String avatar;
     private final String occupation;
@@ -22,10 +21,9 @@ public class MemberResponse {
     private final String introduce;
 
     @Builder(access = AccessLevel.PROTECTED)
-    private MemberResponse(Long memberId, String type, String name, String avatar, String occupation, String occupationName, String company, String email, String twitter, String linkedin, String github,
+    private MemberResponse(Long memberId, String name, String avatar, String occupation, String occupationName, String company, String email, String twitter, String linkedin, String github,
                            String introduce) {
         this.memberId = memberId;
-        this.type = type;
         this.name = name;
         this.avatar = avatar;
         this.occupation = occupation;
@@ -45,23 +43,17 @@ public class MemberResponse {
     private static MemberResponse of(MemberDto memberDto) {
         return MemberResponse.builder()
                              .memberId(memberDto.getId())
-                             .type(memberDto.getType()
-                                            .name())
                              .name(memberDto.getName())
-                             .avatar(memberDto.getAvatar())
+                             .avatar(memberDto.getProfile())
                              .occupation(memberDto.getOccupationType()
                                                   .getDescription())
                              .occupationName(memberDto.getOccupationType()
                                                       .getName())
                              .company(memberDto.getCompany())
-                             .email(memberDto.getEmailAddress()
-                                             .getEmail())
-                             .twitter(memberDto.getEmailAddress()
-                                               .getTwitter())
-                             .linkedin(memberDto.getEmailAddress()
-                                                .getLinkedin())
-                             .github(memberDto.getEmailAddress()
-                                              .getGithub())
+                             .email(memberDto.getEmail())
+                             .twitter(memberDto.getTwitter())
+                             .linkedin(memberDto.getLinkedin())
+                             .github(memberDto.getGithub())
                              .introduce(memberDto.getIntroduce())
                              .build();
     }

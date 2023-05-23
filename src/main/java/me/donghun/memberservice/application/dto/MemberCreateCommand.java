@@ -1,32 +1,38 @@
 package me.donghun.memberservice.application.dto;
 
-import me.donghun.memberservice.domain.model.EmailAddress;
-import me.donghun.memberservice.domain.model.Member;
-import me.donghun.memberservice.domain.model.MemberType;
+import lombok.Builder;
+import me.donghun.memberservice.domain.dto.CreateMemberDomainModelDto;
 import me.donghun.memberservice.domain.model.OccupationType;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Objects;
 
 public record MemberCreateCommand(
         String name,
-        MultipartFile avatar,
-        String occupationType,
-        String company,
         String email,
-        String twitter,
-        String linkedin,
+        String introduce,
+        OccupationType occupationType,
+        MultipartFile profile,
         String github,
-        String introduce
+        String twitter,
+        String linkedin
 ) {
-    public Member toEntity(String avatarPath) {
-        return Member.createMember(
-                name,
-                StringUtils.hasText(avatarPath) ? avatarPath : null,
-                MemberType.AUTHORS,
-                OccupationType.valueOf(occupationType),
-                company,
-                EmailAddress.createEmailAddress(email, twitter, linkedin, github),
-                introduce
-        );
+
+    @Builder
+    public MemberCreateCommand {
     }
+
+    public CreateMemberDomainModelDto toDomainModelDto() {
+        return CreateMemberDomainModelDto.builder()
+                                         .name(name)
+                                         .email(email)
+                                         .introduce(introduce)
+                                         .occupation(occupationType)
+                                         .profile(Objects.isNull(profile) ? null : profile.getOriginalFilename())
+                                         .github(github)
+                                         .twitter(twitter)
+                                         .linkedin(linkedin)
+                                         .build();
+    }
+
 }

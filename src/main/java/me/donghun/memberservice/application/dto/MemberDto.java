@@ -2,53 +2,50 @@ package me.donghun.memberservice.application.dto;
 
 import lombok.Builder;
 import lombok.Getter;
-import me.donghun.memberservice.domain.model.EmailAddress;
 import me.donghun.memberservice.domain.model.Member;
-import me.donghun.memberservice.domain.model.MemberType;
 import me.donghun.memberservice.domain.model.OccupationType;
-
-import static java.util.Objects.isNull;
 
 @Getter
 public class MemberDto {
 
     private Long id;
-    private MemberType type;
     private String name;
-    private String avatar;
+    private String profile;
     // 직업
     private OccupationType occupationType;
     // 회사
     private String company;
-    private EmailAddress emailAddress;
+    private String email;
+    private String github;
+    private String twitter;
+    private String linkedin;
     private String introduce;
 
     @Builder
-    private MemberDto(Long id, MemberType type, String name, String avatar, OccupationType occupationType, String company, EmailAddress emailAddress,
-                      String introduce) {
+    private MemberDto(Long id, String name, String profile, OccupationType occupationType, String company, String email, String github, String twitter, String linkedin, String introduce) {
         this.id = id;
-        this.type = type;
         this.name = name;
-        this.avatar = avatar;
+        this.profile = profile;
         this.occupationType = occupationType;
         this.company = company;
-        this.emailAddress = emailAddress;
+        this.github = github;
+        this.twitter = twitter;
+        this.linkedin = linkedin;
         this.introduce = introduce;
+        this.email = email;
     }
 
-    public static MemberDto of(Member member, String avatarAbsolutePath) {
+    public static MemberDto of(Member member, String absolutePath) {
         return MemberDto.builder()
                         .id(member.getId())
-                        .type(member.getType())
                         .name(member.getName())
-                        .avatar(
-                                !isNull(member.getAvatar()) ?
-                                        avatarAbsolutePath + member.getAvatar().getPath() :
-                                        null
-                        )
-                        .occupationType(member.getOccupationType())
+                        .profile(member.isProfileEmpty() ? null : absolutePath + member.getProfile())
+                        .occupationType(member.getOccupation())
                         .company(member.getCompany())
-                        .emailAddress(member.getEmailAddress())
+                        .email(member.getEmail())
+                        .github(member.getGithub())
+                        .twitter(member.getTwitter())
+                        .linkedin(member.getLinkedin())
                         .introduce(member.getIntroduce())
                         .build();
     }

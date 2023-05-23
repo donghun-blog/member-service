@@ -1,28 +1,31 @@
 package me.donghun.memberservice.adapter.output.persistence.mapper;
 
 import lombok.RequiredArgsConstructor;
+import me.donghun.memberservice.adapter.output.persistence.entity.EmailAddressValue;
 import me.donghun.memberservice.adapter.output.persistence.entity.MemberEntity;
 import me.donghun.memberservice.domain.model.Member;
 import org.springframework.stereotype.Component;
 
-import static java.util.Objects.isNull;
-
 @Component
 @RequiredArgsConstructor
 public class MemberMapper {
-
-    private final EmailAddressMapper emailAddressMapper;
 
     public Member toDomainModel(MemberEntity memberEntity) {
 
         return Member.builder()
                      .id(memberEntity.getId())
                      .name(memberEntity.getName())
-                     .type(memberEntity.getType())
-                     .avatar(memberEntity.getAvatar())
-                     .occupationType(memberEntity.getOccupationType())
+                     .profile(memberEntity.getProfile())
+                     .occupation(memberEntity.getOccupationType())
                      .company(memberEntity.getCompany())
-                     .emailAddress(emailAddressMapper.toDomainModel(memberEntity.getEmailAddress()))
+                     .github(memberEntity.getEmailAddress()
+                                         .getGithub())
+                     .email(memberEntity.getEmailAddress()
+                                        .getEmail())
+                     .twitter(memberEntity.getEmailAddress()
+                                          .getTwitter())
+                     .linkedin(memberEntity.getEmailAddress()
+                                           .getLinkedin())
                      .createdAt(memberEntity.getCreatedAt())
                      .modifiedAt(memberEntity.getModifiedAt())
                      .introduce(memberEntity.getIntroduce())
@@ -31,15 +34,19 @@ public class MemberMapper {
 
     public MemberEntity toEntity(Member member) {
         return MemberEntity.builder()
-                           .id((isNull(member.getId()) ? null : member.getId()))
-                           .type(member.getType())
+                           .id(member.getId())
                            .name(member.getName())
-                           .avatar(
-                                  isNull(member.getAvatar()) ? null : member.getAvatar().getPath()
-                           )
-                           .occupationType(member.getOccupationType())
+                           .profile(member.getProfile())
+                           .occupationType(member.getOccupation())
                            .company(member.getCompany())
-                           .emailAddress(emailAddressMapper.toValueObject(member.getEmailAddress()))
+                           .emailAddress(
+                                   EmailAddressValue.builder()
+                                                    .github(member.getGithub())
+                                                    .twitter(member.getTwitter())
+                                                    .email(member.getEmail())
+                                                    .linkedin(member.getLinkedin())
+                                                    .build()
+                           )
                            .introduce(member.getIntroduce())
                            .build();
     }

@@ -2,14 +2,11 @@ package me.donghun.memberservice.adapter.output.s3;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
 import me.donghun.memberservice.adapter.output.s3.config.S3Properties;
-import me.donghun.memberservice.application.port.input.AvatarNamingRuleGenerateUseCase;
-import me.donghun.memberservice.application.port.output.RemoveAvatarPort;
-import me.donghun.memberservice.application.port.output.UploadAvatarPort;
+import me.donghun.memberservice.application.port.output.UploadProfilePort;
 import me.donghun.memberservice.domain.exception.MemberException;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
@@ -23,23 +20,20 @@ import static me.donghun.memberservice.domain.exception.MemberErrorCode.MEMBER_A
 
 @Component
 @RequiredArgsConstructor
-public class AvatarS3Adapter implements UploadAvatarPort, RemoveAvatarPort {
+public class AvatarS3Adapter implements UploadProfilePort {
 
     private final AmazonS3Client amazonS3Client;
     private final S3Properties properties;
-    private final AvatarNamingRuleGenerateUseCase namingRuleService;
 
     @Override
-    public String upload(MultipartFile avatar) {
+    public void upload(String path, MultipartFile profile) {
         try {
-            ObjectMetadata metaData = createMetaData(avatar);
-            try (InputStream inputStream = avatar.getInputStream()) {
-                String relativePath = namingRuleService.generate(avatar.getOriginalFilename());
-                String fullPath = properties.getPrefix() + relativePath;
+            ObjectMetadata metaData = createMetaData(profile);
+            try (InputStream inputStream = profile.getInputStream()) {
+                String fullPath = properties.getPrefix() + path;
                 amazonS3Client.putObject(
                         new PutObjectRequest(properties.getBucket(), fullPath, inputStream, metaData)
                                 .withCannedAcl(CannedAccessControlList.PublicRead));
-                return relativePath;
             } catch (IOException e) {
                 throw new FileUploadException();
             }
@@ -55,13 +49,13 @@ public class AvatarS3Adapter implements UploadAvatarPort, RemoveAvatarPort {
         return objectMetadata;
     }
 
-    @Override
-    public boolean isExistImage(String path) {
-        return amazonS3Client.doesObjectExist(properties.getBucket(), path);
-    }
-
-    @Override
-    public void removeImage(String path) {
-        amazonS3Client.deleteObject(new DeleteObjectRequest(properties.getBucket(), path));
-    }
+//    @Override
+//    public boolean isExistImage(String path) {
+//        return amazonS3Client.doesObjectExist(properties.getBucket(), path);
+//    }
+//
+//    @Override
+//    public void removeImage(String path) {
+//        amazonS3Client.deleteObject(new DeleteObjectRequest(properties.getBucket(), path));
+//    }
 }

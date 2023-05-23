@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import me.donghun.memberservice.adapter.output.persistence.entity.MemberEntity;
 import me.donghun.memberservice.adapter.output.persistence.mapper.MemberMapper;
 import me.donghun.memberservice.adapter.output.persistence.repository.MemberQueryRepository;
-import me.donghun.memberservice.application.port.output.LoadMemberPort;
+import me.donghun.memberservice.application.port.output.MemberQueryPort;
 import me.donghun.memberservice.domain.exception.MemberException;
 import me.donghun.memberservice.domain.model.Member;
 import org.springframework.stereotype.Component;
@@ -13,7 +13,7 @@ import static me.donghun.memberservice.domain.exception.MemberErrorCode.MEMBER_N
 
 @Component
 @RequiredArgsConstructor
-public class MemberQueryAdapter implements LoadMemberPort {
+public class MemberQueryAdapter implements MemberQueryPort {
 
     private final MemberQueryRepository memberQueryRepository;
     private final MemberMapper memberMapper;
