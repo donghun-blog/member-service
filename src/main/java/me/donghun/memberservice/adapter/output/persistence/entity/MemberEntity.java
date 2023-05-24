@@ -34,6 +34,7 @@ public class MemberEntity extends BaseTimeEntity {
     private EmailAddressValue emailAddress;
 
     @Lob
+    @Column(columnDefinition = "LONGTEXT")
     private String introduce;
 
     @Builder
@@ -52,24 +53,7 @@ public class MemberEntity extends BaseTimeEntity {
 
         validate();
     }
-
-    public void updateValue(Member member) {
-//        if(!this.name.equals(member.getName())) this.name = member.getName();
-//
-//        if(!isNull(member.getAvatar())) {
-//            if(!this.avatar.equals(member.getAvatar().getPath())) this.avatar = member.getAvatar().getPath();
-//        }
-//
-//        if(!this.company.equals(member.getCompany())) this.company = member.getCompany();
-//        if(!this.introduce.equals(member.getIntroduce())) this.introduce = member.getIntroduce();
-//
-//        if(!this.emailAddress.isEqual(member.getEmailAddress())) {
-//            this.emailAddress = EmailAddressValue.createEmailAddressValue(member.getEmailAddress());
-//        }
-
-        validate();
-    }
-
+    
     private void validate() {
         if (!hasText(this.name)) throw new MemberException(MEMBER_NAME_EMPTY);
         if (!hasText(this.introduce)) throw new MemberException(MEMBER_INTRODUCE_EMPTY);
