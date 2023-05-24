@@ -9,4 +9,6 @@ public interface MemberQueryRepository {
     Optional<MemberEntity> findById(Long memberId);
 
     boolean isNicknameDuplicate(String nickName);
+
+    Optional<MemberEntity> findByNickname(String nickName);
 }

@@ -21,9 +21,15 @@ public class MemberAboutApiController {
     private final MemberCommandUseCase memberCommandUseCase;
     private final MemberQueryUseCase memberQueryUseCase;
 
-    @GetMapping("/{memberId}")
-    public BaseResponse<MemberResponse> getMemberAbout(@PathVariable Long memberId) {
-        MemberDto memberDto = memberQueryUseCase.getMember(memberId);
+//    @GetMapping("/{memberId}")
+//    public BaseResponse<MemberResponse> getMemberAbout(@PathVariable Long memberId) {
+//        MemberDto memberDto = memberQueryUseCase.getMemberById(memberId);
+//        return MemberResponse.success(memberDto);
+//    }
+
+    @GetMapping("/{nickName}")
+    public BaseResponse<MemberResponse> getMemberAbout(@PathVariable String nickName) {
+        MemberDto memberDto = memberQueryUseCase.getMemberByNickname(nickName);
         return MemberResponse.success(memberDto);
     }
 
@@ -35,11 +41,19 @@ public class MemberAboutApiController {
         return RegisterMember.Response.success(memberId);
     }
 
-    @PutMapping(value = "/{memberId}")
+//    @PutMapping(value = "/{memberId}")
+//    public BaseResponse<UpdateMember.Response> updateMemberAbout(
+//            @PathVariable Long  memberId,
+//            @Valid @RequestBody UpdateMember.Request request) {
+//        memberCommandUseCase.updateById(memberId, request.toCommand());
+//        return UpdateMember.Response.success();
+//    }
+
+    @PutMapping(value = "/{nickName}")
     public BaseResponse<UpdateMember.Response> updateMemberAbout(
-            @PathVariable Long  memberId,
+            @PathVariable String  nickName,
             @Valid @RequestBody UpdateMember.Request request) {
-        memberCommandUseCase.update(memberId, request.toCommand());
+        memberCommandUseCase.updateByNickname(nickName, request.toCommand());
         return UpdateMember.Response.success();
     }
 }

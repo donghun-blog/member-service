@@ -16,8 +16,14 @@ public class MemberQueryService implements MemberQueryUseCase {
     private final S3Properties s3Properties;
 
     @Override
-    public MemberDto getMember(Long memberId) {
+    public MemberDto getMemberById(Long memberId) {
         Member member = memberQueryPort.findById(memberId);
+        return MemberDto.of(member, s3Properties.getAbsolutePath());
+    }
+
+    @Override
+    public MemberDto getMemberByNickname(String nickName) {
+        Member member = memberQueryPort.findByNickname(nickName);
         return MemberDto.of(member, s3Properties.getAbsolutePath());
     }
 }
