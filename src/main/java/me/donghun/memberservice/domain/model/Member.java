@@ -87,13 +87,9 @@ public class Member {
             throw new MemberException(MEMBER_INTRODUCE_EMPTY);
         }
 
-        if(!hasText(updateDomainModelDto.nickName())) {
-            throw new MemberException(MEMBER_NICKNAME_EMPTY);
-        }
-
         this.name = updateDomainModelDto.name();
         this.engName = updateDomainModelDto.engName();
-        this.nickName = updateDomainModelDto.nickName();
+        this.nickName = hasText(updateDomainModelDto.nickName()) ? updateDomainModelDto.nickName() : this.nickName;
         this.email = updateDomainModelDto.email();
         this.introduce = updateDomainModelDto.introduce();
         this.occupation = updateDomainModelDto.occupation();

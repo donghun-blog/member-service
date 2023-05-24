@@ -12,6 +12,7 @@ import me.donghun.memberservice.domain.exception.MemberException;
 import me.donghun.memberservice.domain.model.Member;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import static me.donghun.memberservice.domain.exception.MemberErrorCode.MEMBER_NICKNAME_DUPLICATE;
 
@@ -55,7 +56,7 @@ public class MemberCommandService implements MemberCommandUseCase {
 
     @Override
     public void updateByNickname(String nickName, MemberUpdateCommand command) {
-        if(memberQueryPort.isNicknameDuplicate(command.nickName())) {
+        if(StringUtils.hasText(command.nickName()) && memberQueryPort.isNicknameDuplicate(command.nickName())) {
             throw new MemberException(MEMBER_NICKNAME_DUPLICATE);
         }
 
