@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum OccupationType implements CodeEnum {
-    BACKEND_ENGINEER ("백엔드 엔지니어");
+    BACKEND_ENGINEER ("백엔드 개발자");
 
     private final String description;
 
