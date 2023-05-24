@@ -19,6 +19,9 @@ public class RegisterMember {
 
         @NotBlank(message = "이름은 필수입니다.")
         private String name;
+        private String engName;
+        @NotBlank(message = "닉네임은 필수입니다.")
+        private String nickName;
         @EnumValid(target = OccupationType.class, message = "직업을 다시 확인해주세요.")
         private String occupation;
         private String company;
@@ -35,8 +38,10 @@ public class RegisterMember {
         private String introduce;
 
         @Builder
-        private Request(String name, String occupation, String company, String email, String twitter, String linkedin, String github, String introduce) {
+        private Request(String name, String engName, String nickName, String occupation, String company, String email, String twitter, String linkedin, String github, String introduce) {
             this.name = name;
+            this.engName = engName;
+            this.nickName = nickName;
             this.occupation = occupation;
             this.company = company;
             this.email = email;
@@ -47,7 +52,7 @@ public class RegisterMember {
         }
 
         public MemberCreateCommand toCommand(MultipartFile profile) {
-            return new MemberCreateCommand(name, email, introduce, OccupationType.valueOf(occupation), profile, github, twitter, linkedin);
+            return new MemberCreateCommand(name, engName, nickName, email, introduce, OccupationType.valueOf(occupation), profile, github, twitter, linkedin);
         }
     }
 

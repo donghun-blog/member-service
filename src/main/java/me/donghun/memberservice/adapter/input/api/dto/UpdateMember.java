@@ -15,6 +15,9 @@ public class UpdateMember {
     public static class Request {
         @NotBlank(message = "이름은 필수입니다.")
         private String name;
+        private String engName;
+        @NotBlank(message = "닉네임은 필수입니다.")
+        private String nickName;
         @EnumValid(target = OccupationType.class, message = "직업을 다시 확인해주세요.")
         private String occupation;
         private String company;
@@ -33,6 +36,8 @@ public class UpdateMember {
         public MemberUpdateCommand toCommand() {
             return new MemberUpdateCommand(
                     name,
+                    engName,
+                    nickName,
                     OccupationType.valueOf(occupation),
                     company,
                     email,

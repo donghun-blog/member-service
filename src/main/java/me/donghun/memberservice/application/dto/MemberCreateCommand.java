@@ -9,6 +9,8 @@ import java.util.Objects;
 
 public record MemberCreateCommand(
         String name,
+        String engName,
+        String nickName,
         String email,
         String introduce,
         OccupationType occupationType,
@@ -25,6 +27,8 @@ public record MemberCreateCommand(
     public CreateMemberDomainModelDto toDomainModelDto() {
         return CreateMemberDomainModelDto.builder()
                                          .name(name)
+                                         .engName(engName)
+                                         .nickName(nickName)
                                          .email(email)
                                          .introduce(introduce)
                                          .occupation(occupationType)

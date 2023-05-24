@@ -5,6 +5,8 @@ import me.donghun.memberservice.domain.model.OccupationType;
 
 public record MemberUpdateCommand(
         String name,
+        String engName,
+        String nickName,
         OccupationType occupationType,
         String company,
         String email,
@@ -16,6 +18,8 @@ public record MemberUpdateCommand(
     public UpdateMemberDomainModelDto toDomainModelDto() {
         return UpdateMemberDomainModelDto.builder()
                                          .name(name)
+                                         .engName(engName)
+                                         .nickName(nickName)
                                          .email(email)
                                          .company(company)
                                          .introduce(introduce)

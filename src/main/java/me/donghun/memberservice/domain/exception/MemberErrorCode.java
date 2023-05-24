@@ -14,6 +14,8 @@ public enum MemberErrorCode {
     MEMBER_AVATAR_EMPTY("이미지 경로가 비었습니다."),
     MEMBER_AVATAR_UPLOAD_FAIL("이미지 업로에 실패하였습니다."),
     MEMBER_PROFILE_EXTENSION_NOT_SUPPORT("지원하지 않는 확장자입니다."),
+    MEMBER_NICKNAME_EMPTY("회원 닉네임이 비었습니다."),
+    MEMBER_NICKNAME_DUPLICATE("닉네임이 중복되었습니다.")
     ;
 
 

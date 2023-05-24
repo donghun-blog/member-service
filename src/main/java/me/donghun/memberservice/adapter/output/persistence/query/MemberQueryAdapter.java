@@ -24,4 +24,9 @@ public class MemberQueryAdapter implements MemberQueryPort {
                                                          .orElseThrow(() -> new MemberException(MEMBER_NOT_FOUND));
         return memberMapper.toDomainModel(memberEntity);
     }
+
+    @Override
+    public boolean isNicknameDuplicate(String nickName) {
+        return memberQueryRepository.isNicknameDuplicate(nickName);
+    }
 }
