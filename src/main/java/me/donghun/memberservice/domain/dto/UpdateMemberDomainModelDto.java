@@ -6,6 +6,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 public record UpdateMemberDomainModelDto(
         String name,
+        String engName,
+        String nickName,
         OccupationType occupation,
         String company,
         String email,

@@ -7,9 +7,13 @@ import me.donghun.memberservice.application.port.input.MemberCommandUseCase;
 import me.donghun.memberservice.application.port.output.MemberCommandPort;
 import me.donghun.memberservice.application.port.output.MemberQueryPort;
 import me.donghun.memberservice.application.port.output.UploadProfilePort;
+import me.donghun.memberservice.domain.exception.MemberErrorCode;
+import me.donghun.memberservice.domain.exception.MemberException;
 import me.donghun.memberservice.domain.model.Member;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import static me.donghun.memberservice.domain.exception.MemberErrorCode.MEMBER_NICKNAME_DUPLICATE;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +26,11 @@ public class MemberCommandService implements MemberCommandUseCase {
     @Override
     @Transactional
     public Long create(MemberCreateCommand command) {
+
+        if(memberQueryPort.isNicknameDuplicate(command.nickName())) {
+            throw new MemberException(MEMBER_NICKNAME_DUPLICATE);
+        }
+
         Member member = Member.Factory.create(command.toDomainModelDto());
 
         if(!member.isProfileEmpty()) {
@@ -34,6 +43,11 @@ public class MemberCommandService implements MemberCommandUseCase {
     @Override
     @Transactional
     public void update(Long memberId, MemberUpdateCommand command) {
+
+        if(memberQueryPort.isNicknameDuplicate(command.nickName())) {
+            throw new MemberException(MEMBER_NICKNAME_DUPLICATE);
+        }
+
         Member member = memberQueryPort.findById(memberId);
         member.update(command.toDomainModelDto());
 

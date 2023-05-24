@@ -7,6 +7,8 @@ import java.time.LocalDateTime;
 
 public record CreateMemberDomainModelDto(
         String name,
+        String engName,
+        String nickName,
         String profile,
         OccupationType occupation,
         String company,

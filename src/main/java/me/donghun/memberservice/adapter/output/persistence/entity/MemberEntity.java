@@ -11,14 +11,16 @@ import me.donghun.memberservice.domain.model.OccupationType;
 
 import java.time.LocalDateTime;
 
-import static me.donghun.memberservice.domain.exception.MemberErrorCode.MEMBER_INTRODUCE_EMPTY;
-import static me.donghun.memberservice.domain.exception.MemberErrorCode.MEMBER_NAME_EMPTY;
+import static me.donghun.memberservice.domain.exception.MemberErrorCode.*;
 import static org.springframework.util.StringUtils.hasText;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "member")
+@Table(
+        name = "member",
+        uniqueConstraints = @UniqueConstraint(columnNames = "nickName")
+)
 public class MemberEntity extends BaseTimeEntity {
 
     @Id
@@ -26,6 +28,8 @@ public class MemberEntity extends BaseTimeEntity {
     private Long id;
 
     private String name;
+    private String engName;
+    private String nickName;
     private String profile;
     @Enumerated(EnumType.STRING)
     private OccupationType occupationType;
@@ -38,10 +42,12 @@ public class MemberEntity extends BaseTimeEntity {
     private String introduce;
 
     @Builder
-    private MemberEntity(Long id, String name, String profile, OccupationType occupationType, String company, EmailAddressValue emailAddress, String introduce,
+    private MemberEntity(Long id, String name, String engName, String nickName, String profile, OccupationType occupationType, String company, EmailAddressValue emailAddress, String introduce,
                          LocalDateTime createdAt, LocalDateTime modifiedAt, LocalDateTime deletedAt) {
         this.id = id;
         this.name = name;
+        this.engName = engName;
+        this.nickName = nickName;
         this.profile = profile;
         this.occupationType = occupationType;
         this.company = company;
@@ -57,10 +63,13 @@ public class MemberEntity extends BaseTimeEntity {
     private void validate() {
         if (!hasText(this.name)) throw new MemberException(MEMBER_NAME_EMPTY);
         if (!hasText(this.introduce)) throw new MemberException(MEMBER_INTRODUCE_EMPTY);
+        if (!hasText(this.nickName)) throw new MemberException(MEMBER_NICKNAME_EMPTY);
     }
 
     public void update(Member member) {
         this.name = member.getName();
+        this.engName = member.getEngName();
+        this.nickName = member.getNickName();
         this.introduce = member.getIntroduce();
         this.occupationType = member.getOccupation();
         this.company = member.getCompany();
@@ -70,5 +79,7 @@ public class MemberEntity extends BaseTimeEntity {
                                              .github(member.getGithub())
                                              .linkedin(member.getLinkedin())
                                              .build();
+
+        validate();
     }
 }

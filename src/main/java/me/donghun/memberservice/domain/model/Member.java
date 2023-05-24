@@ -10,13 +10,15 @@ import me.donghun.memberservice.domain.service.ProfileRandomUUIDGenerateDomainSe
 
 import java.time.LocalDateTime;
 
-import static me.donghun.memberservice.domain.exception.MemberErrorCode.MEMBER_PROFILE_EXTENSION_NOT_SUPPORT;
+import static me.donghun.memberservice.domain.exception.MemberErrorCode.*;
 import static org.springframework.util.StringUtils.hasText;
 
 @Getter
 public class Member {
     private Long id;
     private String name;
+    private String engName;
+    private String nickName;
     private String profile;
     private OccupationType occupation;
     private String company;
@@ -29,26 +31,32 @@ public class Member {
     private LocalDateTime modifiedAt;
 
     @Builder
-    private Member(Long id, String name, String profile, OccupationType occupation, String company, String email, String github, String twitter, String linkedin, String introduce, LocalDateTime createdAt, LocalDateTime modifiedAt) {
+    private Member(Long id, String name, String engName, String nickName, String profile, OccupationType occupation, String company, String email, String github, String twitter, String linkedin, String introduce, LocalDateTime createdAt, LocalDateTime modifiedAt) {
 
         if (!hasText(name)) {
             throw new MemberException(MemberErrorCode.MEMBER_NAME_EMPTY);
         }
 
         if (!hasText(email)) {
-            throw new MemberException(MemberErrorCode.MEMBER_EMAIL_EMPTY);
+            throw new MemberException(MEMBER_EMAIL_EMPTY);
         }
 
         if (!hasText(introduce)) {
-            throw new MemberException(MemberErrorCode.MEMBER_INTRODUCE_EMPTY);
+            throw new MemberException(MEMBER_INTRODUCE_EMPTY);
         }
 
         if (hasText(profile) && !ProfileSupportType.isSupport(profile)) {
             throw new MemberException(MEMBER_PROFILE_EXTENSION_NOT_SUPPORT);
         }
 
+        if (!hasText(nickName)) {
+            throw new MemberException(MEMBER_NICKNAME_EMPTY);
+        }
+
         this.id = id;
         this.name = name;
+        this.engName = engName;
+        this.nickName = nickName;
         this.email = email;
         this.introduce = introduce;
 
@@ -72,14 +80,20 @@ public class Member {
         }
 
         if (!hasText(updateDomainModelDto.email())) {
-            throw new MemberException(MemberErrorCode.MEMBER_EMAIL_EMPTY);
+            throw new MemberException(MEMBER_EMAIL_EMPTY);
         }
 
         if (!hasText(updateDomainModelDto.introduce())) {
-            throw new MemberException(MemberErrorCode.MEMBER_INTRODUCE_EMPTY);
+            throw new MemberException(MEMBER_INTRODUCE_EMPTY);
+        }
+
+        if(!hasText(updateDomainModelDto.nickName())) {
+            throw new MemberException(MEMBER_NICKNAME_EMPTY);
         }
 
         this.name = updateDomainModelDto.name();
+        this.engName = updateDomainModelDto.engName();
+        this.nickName = updateDomainModelDto.nickName();
         this.email = updateDomainModelDto.email();
         this.introduce = updateDomainModelDto.introduce();
         this.occupation = updateDomainModelDto.occupation();
@@ -99,6 +113,8 @@ public class Member {
 
             return Member.builder()
                          .name(domainModelDto.name())
+                         .engName(domainModelDto.engName())
+                         .nickName(domainModelDto.nickName())
                          .email(domainModelDto.email())
                          .introduce(domainModelDto.introduce())
                          .occupation(domainModelDto.occupation())

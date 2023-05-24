@@ -10,6 +10,8 @@ public class MemberDto {
 
     private Long id;
     private String name;
+    private String engName;
+    private String nickName;
     private String profile;
     // 직업
     private OccupationType occupationType;
@@ -22,9 +24,11 @@ public class MemberDto {
     private String introduce;
 
     @Builder
-    private MemberDto(Long id, String name, String profile, OccupationType occupationType, String company, String email, String github, String twitter, String linkedin, String introduce) {
+    private MemberDto(Long id, String name, String engName, String nickName, String profile, OccupationType occupationType, String company, String email, String github, String twitter, String linkedin, String introduce) {
         this.id = id;
         this.name = name;
+        this.engName = engName;
+        this.nickName = nickName;
         this.profile = profile;
         this.occupationType = occupationType;
         this.company = company;
@@ -39,6 +43,8 @@ public class MemberDto {
         return MemberDto.builder()
                         .id(member.getId())
                         .name(member.getName())
+                        .engName(member.getEngName())
+                        .nickName(member.getNickName())
                         .profile(member.isProfileEmpty() ? null : absolutePath + member.getProfile())
                         .occupationType(member.getOccupation())
                         .company(member.getCompany())

@@ -23,4 +23,13 @@ public class MemberQueryRepositoryImpl implements MemberQueryRepository {
                 .where(memberEntity.id.eq(memberId))
                 .fetchOne());
     }
+
+    @Override
+    public boolean isNicknameDuplicate(String nickName) {
+        return queryFactory
+                .select(memberEntity)
+                .from(memberEntity)
+                .where(memberEntity.nickName.eq(nickName))
+                .fetchOne() != null;
+    }
 }
