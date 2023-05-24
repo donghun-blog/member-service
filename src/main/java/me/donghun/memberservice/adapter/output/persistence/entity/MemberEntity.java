@@ -53,7 +53,7 @@ public class MemberEntity extends BaseTimeEntity {
 
         validate();
     }
-    
+
     private void validate() {
         if (!hasText(this.name)) throw new MemberException(MEMBER_NAME_EMPTY);
         if (!hasText(this.introduce)) throw new MemberException(MEMBER_INTRODUCE_EMPTY);
