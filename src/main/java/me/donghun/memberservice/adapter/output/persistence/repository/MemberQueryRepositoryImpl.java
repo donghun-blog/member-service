@@ -32,4 +32,13 @@ public class MemberQueryRepositoryImpl implements MemberQueryRepository {
                 .where(memberEntity.nickName.eq(nickName))
                 .fetchOne() != null;
     }
+
+    @Override
+    public Optional<MemberEntity> findByNickname(String nickName) {
+        return Optional.ofNullable(queryFactory
+                .select(memberEntity)
+                .from(memberEntity)
+                .where(memberEntity.nickName.eq(nickName))
+                .fetchOne());
+    }
 }

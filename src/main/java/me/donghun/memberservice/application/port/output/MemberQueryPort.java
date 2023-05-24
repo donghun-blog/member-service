@@ -5,4 +5,5 @@ import me.donghun.memberservice.domain.model.Member;
 public interface MemberQueryPort {
     Member findById(Long memberId);
     boolean isNicknameDuplicate(String nickName);
+    Member findByNickname(String nickName);
 }

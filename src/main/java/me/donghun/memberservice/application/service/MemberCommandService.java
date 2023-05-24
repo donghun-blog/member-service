@@ -41,14 +41,25 @@ public class MemberCommandService implements MemberCommandUseCase {
     }
 
     @Override
-    @Transactional
-    public void update(Long memberId, MemberUpdateCommand command) {
+    public void updateById(Long memberId, MemberUpdateCommand command) {
 
         if(memberQueryPort.isNicknameDuplicate(command.nickName())) {
             throw new MemberException(MEMBER_NICKNAME_DUPLICATE);
         }
 
         Member member = memberQueryPort.findById(memberId);
+        member.update(command.toDomainModelDto());
+
+        memberCommandPort.update(member);
+    }
+
+    @Override
+    public void updateByNickname(String nickName, MemberUpdateCommand command) {
+        if(memberQueryPort.isNicknameDuplicate(command.nickName())) {
+            throw new MemberException(MEMBER_NICKNAME_DUPLICATE);
+        }
+
+        Member member = memberQueryPort.findByNickname(nickName);
         member.update(command.toDomainModelDto());
 
         memberCommandPort.update(member);

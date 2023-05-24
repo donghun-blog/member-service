@@ -26,6 +26,13 @@ public class MemberQueryAdapter implements MemberQueryPort {
     }
 
     @Override
+    public Member findByNickname(String nickName) {
+        MemberEntity memberEntity = memberQueryRepository.findByNickname(nickName)
+                                                         .orElseThrow(() -> new MemberException(MEMBER_NOT_FOUND));
+        return memberMapper.toDomainModel(memberEntity);
+    }
+
+    @Override
     public boolean isNicknameDuplicate(String nickName) {
         return memberQueryRepository.isNicknameDuplicate(nickName);
     }

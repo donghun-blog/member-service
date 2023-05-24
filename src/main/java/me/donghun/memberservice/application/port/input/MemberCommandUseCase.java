@@ -6,5 +6,7 @@ import me.donghun.memberservice.application.dto.MemberUpdateCommand;
 public interface MemberCommandUseCase {
     Long create(MemberCreateCommand command);
 
-    void update(Long memberId, MemberUpdateCommand command);
+    void updateById(Long memberId, MemberUpdateCommand command);
+
+    void updateByNickname(String nickName, MemberUpdateCommand command);
 }
